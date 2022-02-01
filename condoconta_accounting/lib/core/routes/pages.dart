@@ -6,7 +6,7 @@ abstract class AppPages {
   static final pages = [
     GetPage(
       name: Routes.home,
-      page: () => HomePage(),
+      page: () => const HomePage(),
     )
   ];
 }

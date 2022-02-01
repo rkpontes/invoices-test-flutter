@@ -1,11 +1,10 @@
-import 'package:condoconta_accounting/core/components/content_area/header/button_rounded_widget.dart';
-import 'package:condoconta_accounting/core/components/content_area/header/filter_page_widget.dart';
+import 'package:condoconta_accounting/core/components/button_rounded_widget.dart';
+import 'package:condoconta_accounting/core/components/filter_widget.dart';
 import 'package:condoconta_accounting/core/components/content_area/header/title_page_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 
-class BodyHeaderWidget extends StatelessWidget {
-  const BodyHeaderWidget({Key? key}) : super(key: key);
+class HeaderWidget extends StatelessWidget {
+  const HeaderWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +18,7 @@ class BodyHeaderWidget extends StatelessWidget {
             subtitle: "There are 7 total invoices",
           ),
           Spacer(),
-          FilterPageWidget(),
+          FilterWidget(),
           ButtonRoundedWidget(),
         ],
       ),
