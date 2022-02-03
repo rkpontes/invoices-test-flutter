@@ -1,5 +1,6 @@
 import 'package:condoconta_accounting/core/components/form/button_rounded_widget.dart';
 import 'package:condoconta_accounting/core/components/form/text_field.dart';
+import 'package:condoconta_accounting/core/services/system_service.dart';
 import 'package:condoconta_accounting/features/home/widgets/invoice_list_widget.dart';
 import 'package:condoconta_accounting/core/constrants/colors.dart';
 import 'package:condoconta_accounting/core/models/invoice.dart';
@@ -9,9 +10,10 @@ import 'package:get/get.dart';
 import 'invoice_form_controller.dart';
 
 class InvoiceForm extends StatelessWidget {
-  const InvoiceForm({required this.invoice, Key? key}) : super(key: key);
+  InvoiceForm({required this.invoice, Key? key}) : super(key: key);
 
   final Invoice? invoice;
+  final system = Get.find<SystemService>();
 
   @override
   Widget build(BuildContext context) {
@@ -185,7 +187,7 @@ class InvoiceForm extends StatelessWidget {
                 children: [
                   Expanded(
                     child: ButtonRoundedWidget(
-                      onTap: () {},
+                      onTap: () => system.closeModal(),
                       text: "Discard",
                       color: Colors.white,
                       textColor: accentColor,

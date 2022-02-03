@@ -1,6 +1,6 @@
 import 'package:condoconta_accounting/core/models/invoice.dart';
+import 'package:condoconta_accounting/core/routes/pages.dart';
 import 'package:condoconta_accounting/core/services/invoice_service.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
@@ -11,6 +11,10 @@ class HomeController extends GetxController {
   void onInit() async {
     super.onInit();
     list.assignAll(await service.loadData());
-    print(list.length);
+    //print(list.length);
+  }
+
+  void openToShowPage(Invoice invoice) {
+    Get.toNamed("${Routes.show}?invoice=${invoice.id}", arguments: invoice);
   }
 }

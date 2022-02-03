@@ -6,10 +6,10 @@ import 'sidebar/sidebar_widget.dart';
 
 class TemplateBuilder extends StatelessWidget {
   TemplateBuilder(
-      {required this.contentAreaWidget, required this.sidebarWidget, Key? key})
+      {required this.sidebarWidget, required this.contentAreaWidget, Key? key})
       : super(key: key);
-  final ContentAreaWidget contentAreaWidget;
   final SidebarWidget sidebarWidget;
+  final ContentAreaWidget contentAreaWidget;
 
   final system = Get.find<SystemService>();
 

@@ -15,7 +15,4 @@ class InvoiceFormController extends GetxController {
   final issueDateController = TextEditingController();
   final paymentTermsController = TextEditingController();
   final projectDescriptionController = TextEditingController();
-
-//
-
 }

@@ -37,7 +37,8 @@ class HomePage extends GetView<HomeController> {
                   onTap: () => system
                       // ignore: avoid_unnecessary_containers
                       .openModal(
-                          Container(child: const InvoiceForm(invoice: null))),
+                          // ignore: avoid_unnecessary_containers
+                          Container(child: InvoiceForm(invoice: null))),
                 ),
               ),
               bodyWidget: BodyWidget(
@@ -45,12 +46,12 @@ class HomePage extends GetView<HomeController> {
                     .map(
                       (e) => InvoiceItemList(
                         item: e,
-                        // ignore: avoid_unnecessary_containers
-                        onTap: () => system.openModal(
+                        onTap: () => controller.openToShowPage(e),
+                        /* onTap: () => system.openModal(
                           Container(
                             child: InvoiceForm(invoice: e),
                           ),
-                        ),
+                        ), */
                       ),
                     )
                     .toList(),

@@ -11,6 +11,7 @@ class InvoiceListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (_, constraints) {
+      // ignore: sized_box_for_whitespace
       return Container(
         width: constraints.maxWidth,
         //color: Colors.green,

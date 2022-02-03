@@ -17,12 +17,13 @@ class ContentAreaWidget extends StatelessWidget {
       child: Container(
         width: 800,
         height: Get.height,
-        padding: const EdgeInsets.only(top: 53),
+        //padding: const EdgeInsets.only(top: 53),
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 53),
               headerWidget ?? Container(),
               bodyWidget ?? Container(),
               //BodyWidget(),
