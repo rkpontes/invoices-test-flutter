@@ -54,7 +54,7 @@ class ShowPage extends GetView<ShowController> {
                         ),
                       ),
                       const SizedBox(width: 30),
-                      const InvoiceItemStatus(status: 'pending'),
+                      InvoiceItemStatus(status: controller.invoice.status),
                       const SizedBox(width: 30),
                       const Spacer(),
                       Expanded(

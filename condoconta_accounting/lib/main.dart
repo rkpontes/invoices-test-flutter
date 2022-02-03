@@ -2,8 +2,11 @@ import 'package:condoconta_accounting/core/bindings/global_binding.dart';
 import 'package:condoconta_accounting/core/routes/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
+  Get.put(GetStorage('condo-conta'));
   runApp(const MyApp());
 }
 

@@ -10,6 +10,8 @@ class TitlePageWidget extends StatelessWidget {
     return SizedBox(
       width: 200,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             title,

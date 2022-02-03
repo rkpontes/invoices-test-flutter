@@ -28,7 +28,9 @@ class HomePage extends GetView<HomeController> {
             contentAreaWidget: ContentAreaWidget(
               headerWidget: HeaderWidget(
                 title: "Invoices",
-                subtitle: "There are 7 total invoices",
+                subtitle: controller.list.isNotEmpty
+                    ? "There are ${controller.list.length} total invoices"
+                    : "No invoices",
                 actionButton: ButtonIconRoundedWidget(
                   icon: SvgPicture.asset(
                     'requirements/assets/icon-plus.svg',
@@ -41,21 +43,23 @@ class HomePage extends GetView<HomeController> {
                           Container(child: InvoiceForm(invoice: null))),
                 ),
               ),
-              bodyWidget: BodyWidget(
-                children: controller.list
-                    .map(
-                      (e) => InvoiceItemList(
-                        item: e,
-                        onTap: () => controller.openToShowPage(e),
-                        /* onTap: () => system.openModal(
+              bodyWidget: controller.list.isNotEmpty
+                  ? BodyWidget(
+                      children: controller.list
+                          .map(
+                            (e) => InvoiceItemList(
+                              item: e,
+                              onTap: () => controller.openToShowPage(e),
+                              /* onTap: () => system.openModal(
                           Container(
                             child: InvoiceForm(invoice: e),
                           ),
                         ), */
-                      ),
+                            ),
+                          )
+                          .toList(),
                     )
-                    .toList(),
-              ),
+                  : BodyWidget(),
             ),
           )),
     );

@@ -5,7 +5,6 @@ import 'package:condoconta_accounting/features/home/widgets/invoice_item_status.
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:condoconta_accounting/core/constrants/text.dart';
 
 class InvoiceItemList extends StatelessWidget {
   const InvoiceItemList({required this.item, this.onTap, Key? key})
