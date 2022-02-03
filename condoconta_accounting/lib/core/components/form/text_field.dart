@@ -3,22 +3,29 @@ import 'package:get/get.dart';
 
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
-    required this.label,
+    this.label,
+    this.initialValue,
     this.controller,
     this.autofocus,
     this.keyboardType,
     this.obscureText,
+    this.fontSize,
+    this.readOnly,
     Key? key,
   }) : super(key: key);
 
-  final String label;
+  final String? label, initialValue;
   final TextEditingController? controller;
-  final bool? autofocus;
+  final bool? autofocus, obscureText, readOnly;
   final TextInputType? keyboardType;
-  final bool? obscureText;
+  final double? fontSize;
 
   @override
   Widget build(BuildContext context) {
+    if (controller != null) {
+      controller!.text = initialValue ?? '';
+    }
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Column(
@@ -26,13 +33,17 @@ class TextFieldWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 12,
-            ),
-          ),
+          label != null
+              ? FittedBox(
+                  child: Text(
+                    label!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                    ),
+                  ),
+                )
+              : Container(),
           const SizedBox(height: 8),
           Container(
             height: 40,
@@ -42,9 +53,11 @@ class TextFieldWidget extends StatelessWidget {
               autofocus: autofocus ?? false,
               keyboardType: keyboardType,
               obscureText: obscureText ?? false,
-              style: const TextStyle(
+              initialValue: controller == null ? initialValue : null,
+              readOnly: readOnly ?? false,
+              style: TextStyle(
                 color: Colors.white,
-                fontSize: 14,
+                fontSize: fontSize ?? 14,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w500,
               ),
@@ -64,7 +77,6 @@ class TextFieldWidget extends StatelessWidget {
                     color: Colors.grey,
                   ),
                 ),
-                //hintText: "Type in your text",
                 hintStyle: const TextStyle(
                   color: Colors.white,
                   fontSize: 12,

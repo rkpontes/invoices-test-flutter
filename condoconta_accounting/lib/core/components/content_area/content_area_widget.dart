@@ -13,18 +13,22 @@ class ContentAreaWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 800,
-      height: Get.height,
-      padding: const EdgeInsets.only(top: 53),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          headerWidget ?? Container(),
-          bodyWidget ?? Container(),
-          //BodyWidget(),
-        ],
+    return SafeArea(
+      child: Container(
+        width: 800,
+        height: Get.height,
+        padding: const EdgeInsets.only(top: 53),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              headerWidget ?? Container(),
+              bodyWidget ?? Container(),
+              //BodyWidget(),
+            ],
+          ),
+        ),
       ),
     );
   }

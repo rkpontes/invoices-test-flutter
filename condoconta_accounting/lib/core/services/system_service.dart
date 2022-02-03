@@ -8,8 +8,8 @@ class SystemService extends GetxService {
 
   Rx<Widget?> modalChild = Container().obs;
 
-  void openModal(Widget? Function() formNewInvoice) {
-    modalChild.value = formNewInvoice.call();
+  void openModal(Widget formNewInvoice) {
+    modalChild.value = formNewInvoice;
     leftPosition!.value = 0.0;
   }
 

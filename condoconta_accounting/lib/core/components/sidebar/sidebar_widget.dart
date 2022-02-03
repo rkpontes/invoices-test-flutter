@@ -8,7 +8,7 @@ class SidebarWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 104,
+      width: Get.width * 0.07,
       height: Get.height,
       decoration: const BoxDecoration(
         color: Color(0xff1f213a),
@@ -26,8 +26,8 @@ class SidebarWidget extends StatelessWidget {
         children: [
           // logo
           Container(
-            width: 104,
-            height: 99,
+            width: Get.width * 0.07,
+            height: Get.width * 0.066,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.only(
                 topRight: Radius.circular(20),
@@ -40,7 +40,7 @@ class SidebarWidget extends StatelessWidget {
                 Align(
                   alignment: Alignment.bottomLeft,
                   child: Container(
-                    width: 104,
+                    width: Get.width * 0.07,
                     height: 56,
                     decoration: const BoxDecoration(
                       borderRadius: BorderRadius.only(
