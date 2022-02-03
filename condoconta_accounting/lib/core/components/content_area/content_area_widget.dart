@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'body/body_widget.dart';
 import 'header/header.dart';
 
 class ContentAreaWidget extends StatelessWidget {
-  ContentAreaWidget({this.child, Key? key}) : super(key: key);
+  const ContentAreaWidget({this.bodyWidget, this.headerWidget, Key? key})
+      : super(key: key);
 
-  Widget? child;
+  final HeaderWidget? headerWidget;
+  final BodyWidget? bodyWidget;
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +21,8 @@ class ContentAreaWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const HeaderWidget(),
-          child ?? Container(),
+          headerWidget ?? Container(),
+          bodyWidget ?? Container(),
           //BodyWidget(),
         ],
       ),

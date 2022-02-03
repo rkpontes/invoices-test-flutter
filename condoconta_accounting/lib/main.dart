@@ -1,3 +1,4 @@
+import 'package:condoconta_accounting/core/bindings/global_binding.dart';
 import 'package:condoconta_accounting/core/routes/pages.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       ),
       getPages: AppPages.pages,
       initialRoute: Routes.home,
+      initialBinding: GlobalBinding(),
     );
   }
 }

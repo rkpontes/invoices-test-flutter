@@ -1,10 +1,17 @@
-import 'package:condoconta_accounting/core/components/button_rounded_widget.dart';
+import 'package:condoconta_accounting/core/components/form/button_rounded_widget.dart';
 import 'package:condoconta_accounting/core/components/filter_widget.dart';
 import 'package:condoconta_accounting/core/components/content_area/header/title_page_widget.dart';
 import 'package:flutter/material.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({Key? key}) : super(key: key);
+  const HeaderWidget(
+      {required this.title,
+      required this.subtitle,
+      this.actionButton,
+      Key? key})
+      : super(key: key);
+  final String title, subtitle;
+  final ButtonRoundedWidget? actionButton;
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +19,14 @@ class HeaderWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
+        children: [
           TitlePageWidget(
-            title: "Invoices",
-            subtitle: "There are 7 total invoices",
+            title: title,
+            subtitle: subtitle,
           ),
-          Spacer(),
-          FilterWidget(),
-          ButtonRoundedWidget(),
+          const Spacer(),
+          const FilterWidget(),
+          actionButton ?? Container(),
         ],
       ),
     );
