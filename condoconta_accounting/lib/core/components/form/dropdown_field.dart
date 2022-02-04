@@ -1,42 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-class TextFieldWidget extends StatelessWidget {
-  const TextFieldWidget({
-    this.label,
-    this.initialValue,
-    this.controller,
-    this.autofocus,
-    this.keyboardType,
-    this.obscureText,
-    this.fontSize,
-    this.readOnly,
-    this.onChange,
-    this.inputFormatters,
-    this.onTap,
-    this.suffix,
-    this.prefix,
-    this.validator,
-    Key? key,
-  }) : super(key: key);
+class DropdownField extends StatelessWidget {
+  const DropdownField(
+      {required this.list, this.label, this.onChange, this.validator, Key? key})
+      : super(key: key);
 
-  final String? label, initialValue;
-  final TextEditingController? controller;
-  final bool? autofocus, obscureText, readOnly;
-  final TextInputType? keyboardType;
-  final double? fontSize;
-  final void Function(String str)? onChange;
-  final void Function()? onTap;
-  final List<TextInputFormatter>? inputFormatters;
-  final Widget? suffix, prefix;
+  final List<String> list;
+  final String? label;
   final String? Function(String?)? validator;
+  final void Function(String? str)? onChange;
 
   @override
   Widget build(BuildContext context) {
-    if (controller != null) {
-      controller!.text = initialValue ?? '';
-    }
-
     return Padding(
       padding: const EdgeInsets.only(bottom: 20),
       child: Column(
@@ -57,29 +33,20 @@ class TextFieldWidget extends StatelessWidget {
               : Container(),
           const SizedBox(height: 8),
           Container(
-            height: 40,
+            height: 45,
             color: const Color(0xff1f213a),
-            child: TextFormField(
-              controller: controller,
-              autofocus: autofocus ?? false,
-              keyboardType: keyboardType,
-              obscureText: obscureText ?? false,
-              initialValue: controller == null ? initialValue : null,
-              readOnly: readOnly ?? false,
-              onChanged: onChange,
-              onTap: onTap,
-              inputFormatters: inputFormatters,
+            child: DropdownButtonFormField<String>(
+              isDense: true,
+              icon: SvgPicture.asset('requirements/assets/icon-arrow-down.svg'),
+              dropdownColor: const Color(0xff1f213a),
               validator: validator,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.white,
-                fontSize: fontSize ?? 14,
+                fontSize: 12,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w500,
               ),
               decoration: InputDecoration(
-                suffix: suffix,
-                prefix: prefix,
-                fillColor: Colors.white,
                 enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: Colors.grey, width: 0.3),
                 ),
@@ -101,6 +68,13 @@ class TextFieldWidget extends StatelessWidget {
                   fontWeight: FontWeight.w700,
                 ),
               ),
+              items: list.map((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              onChanged: onChange,
             ),
           ),
         ],

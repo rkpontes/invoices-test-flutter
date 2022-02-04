@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 class InvoiceItemList extends StatelessWidget {
   const InvoiceItemList({required this.item, this.onTap, Key? key})
       : super(key: key);
-  final Invoice item;
+  final Invoice? item;
   final Function()? onTap;
 
   @override
@@ -48,7 +48,7 @@ class InvoiceItemList extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${item.id}",
+                  "${item!.id}",
                   textAlign: TextAlign.center,
                   style: const TextStyle(
                     color: Color(0xfff8f8f8),
@@ -61,7 +61,7 @@ class InvoiceItemList extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              "Due ${dateFormat(item.paymentDue!)}",
+              "Due ${item?.paymentDue != null ? dateFormat(item!.paymentDue!) : ''}",
               style: const TextStyle(
                 color: Color(0xfff8f8f8),
                 fontSize: 13,
@@ -70,7 +70,7 @@ class InvoiceItemList extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              "${item.clientName}",
+              item?.clientName ?? '',
               style: const TextStyle(
                 color: Color(0xfff8f8f8),
                 fontSize: 12,
@@ -79,8 +79,7 @@ class InvoiceItemList extends StatelessWidget {
             ),
             const Spacer(),
             Text(
-              //"£1,800.90",
-              "£${currencyFormat.format(item.total)}",
+              "£${item?.total != null ? currencyFormat.format(item!.total) : ''}",
               textAlign: TextAlign.center,
               style: const TextStyle(
                 color: Color(0xfff8f8f8),
@@ -90,7 +89,7 @@ class InvoiceItemList extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            InvoiceItemStatus(status: item.status),
+            InvoiceItemStatus(status: item?.status),
             const SizedBox(width: 20),
             SvgPicture.asset(
               'requirements/assets/icon-arrow-right.svg',

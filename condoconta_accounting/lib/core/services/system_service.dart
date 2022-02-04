@@ -8,7 +8,7 @@ class SystemService extends GetxService {
 
   Rx<Widget?> modalChild = Container().obs;
 
-  void openModal(Widget formNewInvoice) {
+  Future<void> openModal(Widget formNewInvoice) async {
     modalChild.value = formNewInvoice;
     leftPosition!.value = 0.0;
   }

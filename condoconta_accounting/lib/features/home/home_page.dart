@@ -4,8 +4,10 @@ import 'package:condoconta_accounting/core/components/content_area/content_area_
 import 'package:condoconta_accounting/core/components/content_area/header/header.dart';
 import 'package:condoconta_accounting/core/components/sidebar/sidebar_widget.dart';
 import 'package:condoconta_accounting/core/components/template_builder.dart';
+import 'package:condoconta_accounting/core/models/invoice.dart';
 import 'package:condoconta_accounting/core/services/system_service.dart';
 import 'package:condoconta_accounting/features/home/widgets/invoice_form/invoice_form.dart';
+import 'package:condoconta_accounting/features/home/widgets/invoice_form/invoice_form_controller.dart';
 import 'package:condoconta_accounting/features/home/widgets/invoice_item_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -36,11 +38,14 @@ class HomePage extends GetView<HomeController> {
                     'requirements/assets/icon-plus.svg',
                   ),
                   text: "New Invoice",
-                  onTap: () => system
-                      // ignore: avoid_unnecessary_containers
-                      .openModal(
-                          // ignore: avoid_unnecessary_containers
-                          Container(child: InvoiceForm(invoice: null))),
+                  onTap: () {
+                    Get.find<InvoiceFormController>().clearController();
+                    system
+                        // ignore: avoid_unnecessary_containers
+                        .openModal(
+                            // ignore: avoid_unnecessary_containers
+                            Container(child: InvoiceForm()));
+                  },
                 ),
               ),
               bodyWidget: controller.service.list.isNotEmpty

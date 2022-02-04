@@ -1,18 +1,18 @@
 import 'package:condoconta_accounting/core/components/form/button_rounded_widget.dart';
+import 'package:condoconta_accounting/core/components/form/dropdown_field.dart';
 import 'package:condoconta_accounting/core/components/form/text_field.dart';
 import 'package:condoconta_accounting/core/services/system_service.dart';
 import 'package:condoconta_accounting/features/home/widgets/invoice_list_widget.dart';
 import 'package:condoconta_accounting/core/constrants/colors.dart';
-import 'package:condoconta_accounting/core/models/invoice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 import 'invoice_form_controller.dart';
 
 class InvoiceForm extends StatelessWidget {
-  InvoiceForm({required this.invoice, Key? key}) : super(key: key);
+  InvoiceForm({Key? key}) : super(key: key);
 
-  final Invoice? invoice;
   final system = Get.find<SystemService>();
 
   @override
@@ -28,8 +28,8 @@ class InvoiceForm extends StatelessWidget {
             children: [
               const SizedBox(height: 50),
               Text(
-                invoice != null
-                    ? "Edit #${invoice!.id!.toUpperCase()}"
+                ctrl.invoice?.id != null
+                    ? "Edit #${ctrl.invoice?.id!.toUpperCase()}"
                     : "New Invoice",
                 style: const TextStyle(
                   color: Colors.white,
@@ -51,41 +51,45 @@ class InvoiceForm extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               TextFieldWidget(
+                validator: (str) => ctrl.validateModel(),
                 label: 'Street Address',
-                initialValue: invoice?.senderAddress?.street,
+                initialValue: ctrl.invoice?.senderAddress?.street,
                 //controller: ctrl.billFromStreetController,
                 onChange: (str) {
-                  ctrl.invoice.senderAddress?.street = str;
+                  ctrl.invoice!.senderAddress?.street = str;
                 },
               ),
               Row(
                 children: [
                   Expanded(
                     child: TextFieldWidget(
+                      validator: (str) => ctrl.validateModel(),
                       label: 'City',
-                      initialValue: invoice?.senderAddress?.city,
+                      initialValue: ctrl.invoice?.senderAddress?.city,
                       onChange: (str) {
-                        ctrl.invoice.senderAddress?.city = str;
+                        ctrl.invoice!.senderAddress?.city = str;
                       },
                     ),
                   ),
                   const SizedBox(width: 22),
                   Expanded(
                     child: TextFieldWidget(
+                      validator: (str) => ctrl.validateModel(),
                       label: 'Postal Code',
-                      initialValue: invoice?.senderAddress?.postCode,
+                      initialValue: ctrl.invoice?.senderAddress?.postCode,
                       onChange: (str) {
-                        ctrl.invoice.senderAddress?.postCode = str;
+                        ctrl.invoice!.senderAddress?.postCode = str;
                       },
                     ),
                   ),
                   const SizedBox(width: 22),
                   Expanded(
                     child: TextFieldWidget(
+                      validator: (str) => ctrl.validateModel(),
                       label: 'Country',
-                      initialValue: invoice?.senderAddress?.country,
+                      initialValue: ctrl.invoice?.senderAddress?.country,
                       onChange: (str) {
-                        ctrl.invoice.senderAddress?.country = str;
+                        ctrl.invoice!.senderAddress?.country = str;
                       },
                     ),
                   ),
@@ -103,27 +107,30 @@ class InvoiceForm extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               TextFieldWidget(
+                validator: (str) => ctrl.validateModel(),
                 label: "Client's Name",
-                initialValue: invoice?.clientName,
+                initialValue: ctrl.invoice?.clientName,
                 onChange: (str) {
-                  ctrl.invoice.clientName = str;
+                  ctrl.invoice!.clientName = str;
                 },
               ),
               const SizedBox(height: 25),
               TextFieldWidget(
+                validator: (str) => ctrl.validateModel(),
                 label: "Client's E-mail",
-                initialValue: invoice?.clientEmail,
+                initialValue: ctrl.invoice?.clientEmail,
                 keyboardType: TextInputType.emailAddress,
                 onChange: (str) {
-                  ctrl.invoice.clientEmail = str;
+                  ctrl.invoice!.clientEmail = str;
                 },
               ),
               const SizedBox(height: 25),
               TextFieldWidget(
+                validator: (str) => ctrl.validateModel(),
                 label: "Street Address",
-                initialValue: invoice?.clientAddress?.street,
+                initialValue: ctrl.invoice?.clientAddress?.street,
                 onChange: (str) {
-                  ctrl.invoice.clientAddress?.street = str;
+                  ctrl.invoice!.clientAddress?.street = str;
                 },
               ),
               const SizedBox(height: 25),
@@ -131,30 +138,33 @@ class InvoiceForm extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFieldWidget(
+                      validator: (str) => ctrl.validateModel(),
                       label: 'City',
-                      initialValue: invoice?.clientAddress?.city,
+                      initialValue: ctrl.invoice?.clientAddress?.city,
                       onChange: (str) {
-                        ctrl.invoice.clientAddress?.city = str;
+                        ctrl.invoice!.clientAddress?.city = str;
                       },
                     ),
                   ),
                   const SizedBox(width: 22),
                   Expanded(
                     child: TextFieldWidget(
+                      validator: (str) => ctrl.validateModel(),
                       label: 'Postal Code',
-                      initialValue: invoice?.clientAddress?.postCode,
+                      initialValue: ctrl.invoice?.clientAddress?.postCode,
                       onChange: (str) {
-                        ctrl.invoice.clientAddress?.postCode = str;
+                        ctrl.invoice!.clientAddress?.postCode = str;
                       },
                     ),
                   ),
                   const SizedBox(width: 22),
                   Expanded(
                     child: TextFieldWidget(
+                      validator: (str) => ctrl.validateModel(),
                       label: 'Country',
-                      initialValue: invoice?.clientAddress?.country,
+                      initialValue: ctrl.invoice?.clientAddress?.country,
                       onChange: (str) {
-                        ctrl.invoice.clientAddress?.country = str;
+                        ctrl.invoice!.clientAddress?.country = str;
                       },
                     ),
                   ),
@@ -165,20 +175,40 @@ class InvoiceForm extends StatelessWidget {
                 children: [
                   Expanded(
                     child: TextFieldWidget(
+                      validator: (str) => ctrl.validateModel(),
                       label: 'Issue Date',
-                      initialValue: invoice?.paymentDue,
+                      controller: ctrl.dateTextController,
+                      initialValue: ctrl.invoice?.paymentDue,
+                      onTap: () => ctrl.showCalendar(context),
                       onChange: (str) {
-                        ctrl.invoice.paymentDue = str;
+                        ctrl.invoice!.createdAt = str;
                       },
+                      suffix: SvgPicture.asset(
+                          'requirements/assets/icon-calendar.svg'),
                     ),
                   ),
                   const SizedBox(width: 22),
                   Expanded(
-                    child: TextFieldWidget(
-                      label: 'Payment Terms',
-                      initialValue: invoice?.paymentTerms.toString(),
+                    child: DropdownField(
+                      validator: (str) => ctrl.validateModel(),
+                      label: "Payment Terms",
+                      list: const <String>[
+                        'Net 1 day',
+                        'Net 7 days',
+                        'Net 30 days'
+                      ],
                       onChange: (str) {
-                        ctrl.invoice.paymentTerms = 1;
+                        switch (str) {
+                          case 'Net 1 day':
+                            ctrl.invoice!.paymentTerms = 1;
+                            break;
+                          case 'Net 7 days':
+                            ctrl.invoice!.paymentTerms = 7;
+                            break;
+                          case 'Net 30 days':
+                            ctrl.invoice!.paymentTerms = 30;
+                            break;
+                        }
                       },
                     ),
                   ),
@@ -186,10 +216,11 @@ class InvoiceForm extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               TextFieldWidget(
+                validator: (str) => ctrl.validateModel(),
                 label: "Project Description",
-                initialValue: invoice?.description,
+                initialValue: ctrl.invoice?.description,
                 onChange: (str) {
-                  ctrl.invoice.description = str;
+                  ctrl.invoice!.description = str;
                 },
               ),
               const SizedBox(height: 25),
@@ -237,7 +268,7 @@ class InvoiceForm extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: ButtonRoundedWidget(
-                      onTap: () {},
+                      onTap: ctrl.onSaveAndSendButtonClick,
                       text: "Save & Send",
                       color: accentColor,
                       textColor: Colors.white,
