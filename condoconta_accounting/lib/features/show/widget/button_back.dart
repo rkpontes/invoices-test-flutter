@@ -13,7 +13,7 @@ class ButtonBack extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         InkWell(
-          onTap: () => Get.offNamed(Routes.home),
+          onTap: () => Get.back(), //Get.offNamed(Routes.home),
           child: Container(
             width: 93,
             height: 45,

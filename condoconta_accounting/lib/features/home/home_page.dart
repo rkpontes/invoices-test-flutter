@@ -28,8 +28,8 @@ class HomePage extends GetView<HomeController> {
             contentAreaWidget: ContentAreaWidget(
               headerWidget: HeaderWidget(
                 title: "Invoices",
-                subtitle: controller.list.isNotEmpty
-                    ? "There are ${controller.list.length} total invoices"
+                subtitle: controller.service.list.isNotEmpty
+                    ? "There are ${controller.service.list.length} total invoices"
                     : "No invoices",
                 actionButton: ButtonIconRoundedWidget(
                   icon: SvgPicture.asset(
@@ -43,9 +43,9 @@ class HomePage extends GetView<HomeController> {
                           Container(child: InvoiceForm(invoice: null))),
                 ),
               ),
-              bodyWidget: controller.list.isNotEmpty
+              bodyWidget: controller.service.list.isNotEmpty
                   ? BodyWidget(
-                      children: controller.list
+                      children: controller.service.list
                           .map(
                             (e) => InvoiceItemList(
                               item: e,
