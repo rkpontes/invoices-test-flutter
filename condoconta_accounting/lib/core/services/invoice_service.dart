@@ -45,15 +45,28 @@ class InvoiceService extends GetxService {
     return null;
   }
 
-  void save(Invoice invoice) {
+  void update(Invoice invoice) {
+    var wasFound = false;
     for (var i = 0; i < list.length; i++) {
       if (list[i].id == invoice.id) {
+        wasFound = true;
         list[i] = invoice;
         List<Invoice> saved = <Invoice>[];
         saved.assignAll(list);
         _dataBaseService.set(key: 'invoices', value: saved);
       }
     }
+
+    if (!wasFound) {
+      insert(invoice);
+    }
+  }
+
+  void insert(Invoice invoice) {
+    list.add(invoice);
+    List<Invoice> saved = <Invoice>[];
+    saved.assignAll(list);
+    _dataBaseService.set(key: 'invoices', value: saved);
   }
 
   Future remove(Invoice invoice) async {

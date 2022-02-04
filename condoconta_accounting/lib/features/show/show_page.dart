@@ -52,7 +52,7 @@ class ShowPage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 30),
-                        InvoiceItemStatus(status: controller.invoice!.status),
+                        InvoiceItemStatus(status: controller.invoice?.status),
                         const SizedBox(width: 30),
                         const Spacer(),
                         Expanded(
@@ -108,7 +108,7 @@ class ShowPage extends StatelessWidget {
                                 children: [
                                   Text(
                                     //"#XM9141",
-                                    "#${controller.invoice!.id}",
+                                    "#${controller.invoice?.id}",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 22,
@@ -118,7 +118,7 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    controller.invoice!.description!,
+                                    controller.invoice?.description ?? '--',
                                     style: const TextStyle(
                                       color: Color(0xff777e98),
                                       fontSize: 16,
@@ -132,7 +132,8 @@ class ShowPage extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    "${controller.invoice!.senderAddress?.street}",
+                                    controller.invoice?.senderAddress?.street ??
+                                        '--',
                                     textAlign: TextAlign.right,
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -141,7 +142,8 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 7),
                                   Text(
-                                    "${controller.invoice!.senderAddress?.city}",
+                                    controller.invoice?.senderAddress?.city ??
+                                        '--',
                                     textAlign: TextAlign.right,
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -150,7 +152,9 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 7),
                                   Text(
-                                    "${controller.invoice!.senderAddress?.postCode}",
+                                    controller
+                                            .invoice?.senderAddress?.postCode ??
+                                        '--',
                                     textAlign: TextAlign.right,
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -159,7 +163,9 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 7),
                                   Text(
-                                    "${controller.invoice!.senderAddress?.country}",
+                                    controller
+                                            .invoice?.senderAddress?.country ??
+                                        '--',
                                     textAlign: TextAlign.right,
                                     style: const TextStyle(
                                       color: Colors.white,
@@ -192,8 +198,11 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 12),
                                   Text(
-                                    dateFormat(controller.invoice!.createdAt
-                                        .toString()),
+                                    controller.invoice?.createdAt != null
+                                        ? dateFormat(controller
+                                            .invoice!.createdAt
+                                            .toString())
+                                        : "--",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
@@ -211,8 +220,11 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 10),
                                   Text(
-                                    dateFormat(controller.invoice!.paymentDue
-                                        .toString()),
+                                    controller.invoice?.paymentDue != null
+                                        ? dateFormat(controller
+                                            .invoice!.paymentDue
+                                            .toString())
+                                        : "--",
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 22,
@@ -237,7 +249,7 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 12),
                                   Text(
-                                    "${controller.invoice!.clientName}",
+                                    controller.invoice?.clientName ?? '--',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
@@ -247,8 +259,8 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 40),
                                   Text(
-                                    controller.invoice!.clientAddress?.street ??
-                                        '',
+                                    controller.invoice?.clientAddress?.street ??
+                                        '--',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -256,18 +268,8 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 7),
                                   Text(
-                                    controller.invoice!.clientAddress?.city ??
-                                        '',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                  const SizedBox(height: 7),
-                                  Text(
-                                    controller
-                                            .invoice!.clientAddress?.postCode ??
-                                        '',
+                                    controller.invoice?.clientAddress?.city ??
+                                        '--',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -276,8 +278,18 @@ class ShowPage extends StatelessWidget {
                                   const SizedBox(height: 7),
                                   Text(
                                     controller
-                                            .invoice!.clientAddress?.country ??
-                                        '',
+                                            .invoice?.clientAddress?.postCode ??
+                                        '--',
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 7),
+                                  Text(
+                                    controller
+                                            .invoice?.clientAddress?.country ??
+                                        '--',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 14,
@@ -300,7 +312,7 @@ class ShowPage extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 12),
                                   Text(
-                                    "${controller.invoice!.clientEmail}",
+                                    controller.invoice?.clientEmail ?? '--',
                                     style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 20,
@@ -375,67 +387,80 @@ class ShowPage extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 36.50),
-                              Column(
-                                children: controller.invoice!.items!
-                                    .map((e) => Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              vertical: 8.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: 220,
-                                                child: Text(
-                                                  "${e.name}",
-                                                  style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 14,
-                                                    fontFamily: "Roboto",
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
+                              controller.invoice?.items != null
+                                  ? Column(
+                                      children: controller.invoice!.items!
+                                          .map((e) => Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        vertical: 8.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.start,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(
+                                                      width: 220,
+                                                      child: Text(
+                                                        e.name ?? '--',
+                                                        style: const TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 14,
+                                                          fontFamily: "Roboto",
+                                                          fontWeight:
+                                                              FontWeight.w700,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(width: 20),
+                                                    Text(
+                                                      "${e.quantity ?? 0}",
+                                                      textAlign: TextAlign.left,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontFamily: "Roboto",
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                    const Spacer(),
+                                                    Text(
+                                                      e.price != null
+                                                          ? "£${currencyFormat.format(e.price)}"
+                                                          : "0.00",
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontFamily: "Roboto",
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                    const Spacer(),
+                                                    Text(
+                                                      e.total != null
+                                                          ? "£${currencyFormat.format(e.total)}"
+                                                          : "0.00",
+                                                      textAlign:
+                                                          TextAlign.right,
+                                                      style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 14,
+                                                        fontFamily: "Roboto",
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
-                                              ),
-                                              const SizedBox(width: 20),
-                                              Text(
-                                                "${e.quantity}",
-                                                textAlign: TextAlign.left,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontFamily: "Roboto",
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              const Spacer(),
-                                              Text(
-                                                "£${currencyFormat.format(e.price)}",
-                                                textAlign: TextAlign.right,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontFamily: "Roboto",
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                              const Spacer(),
-                                              Text(
-                                                "£${currencyFormat.format(e.total)}",
-                                                textAlign: TextAlign.right,
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                  fontFamily: "Roboto",
-                                                  fontWeight: FontWeight.w700,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ))
-                                    .toList(),
-                              ),
+                                              ))
+                                          .toList(),
+                                    )
+                                  : Container(),
                               //
                             ],
                           ),
@@ -462,8 +487,8 @@ class ShowPage extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: const [
-                              Text(
+                            children: [
+                              const Text(
                                 "Amount Due",
                                 style: TextStyle(
                                   color: Colors.white,
@@ -472,11 +497,13 @@ class ShowPage extends StatelessWidget {
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Text(
-                                "£556.00",
+                                controller.invoice?.total != null
+                                    ? "£${currencyFormat.format(controller.invoice?.total)}"
+                                    : "0.00",
                                 textAlign: TextAlign.right,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 32,
                                   fontFamily: "Roboto",
