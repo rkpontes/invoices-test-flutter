@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
@@ -10,6 +11,8 @@ class TextFieldWidget extends StatelessWidget {
     this.obscureText,
     this.fontSize,
     this.readOnly,
+    this.onChange,
+    this.inputFormatters,
     Key? key,
   }) : super(key: key);
 
@@ -18,6 +21,8 @@ class TextFieldWidget extends StatelessWidget {
   final bool? autofocus, obscureText, readOnly;
   final TextInputType? keyboardType;
   final double? fontSize;
+  final void Function(String str)? onChange;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +59,8 @@ class TextFieldWidget extends StatelessWidget {
               obscureText: obscureText ?? false,
               initialValue: controller == null ? initialValue : null,
               readOnly: readOnly ?? false,
+              onChanged: onChange,
+              inputFormatters: inputFormatters,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: fontSize ?? 14,

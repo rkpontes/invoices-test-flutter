@@ -442,9 +442,7 @@ class ShowPage extends StatelessWidget {
                                                     ),
                                                     const Spacer(),
                                                     Text(
-                                                      e.total != null
-                                                          ? "£${currencyFormat.format(e.total)}"
-                                                          : "0.00",
+                                                      "£${currencyFormat.format(e.total)}",
                                                       textAlign:
                                                           TextAlign.right,
                                                       style: const TextStyle(

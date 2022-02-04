@@ -13,22 +13,21 @@ class InvoiceFormController extends GetxController {
   final service = Get.find<InvoiceService>();
   final system = Get.find<SystemService>();
 
+  Invoice invoice = Invoice(
+    clientAddress: SenderAddress(),
+    senderAddress: SenderAddress(),
+  );
+
   String id = "";
-  final billFromStreetController = TextEditingController();
-  final billFromCityController = TextEditingController();
-  final billFromPostalCodeController = TextEditingController();
-  final billFromCountryController = TextEditingController();
-  final billToClientNameController = TextEditingController();
-  final billToClientEmailController = TextEditingController();
-  final billToStreetController = TextEditingController();
-  final billToCityController = TextEditingController();
-  final billToPostalCodeController = TextEditingController();
-  final billToCountryController = TextEditingController();
-  final issueDateController = TextEditingController();
-  final paymentTermsController = TextEditingController();
-  final projectDescriptionController = TextEditingController();
   String dateNow = "";
-  RxList<Item>? items = <Item>[].obs;
+  RxList<Item> items = <Item>[
+    Item(),
+  ].obs;
+
+  void onAddNewItemButtonClick() {
+    items.add(Item());
+    Get.appUpdate();
+  }
 
   void onSaveDraftButtonClick() {
     print("onSaveDraftButtonClick");
@@ -36,38 +35,22 @@ class InvoiceFormController extends GetxController {
     DateFormat dateFormat = DateFormat("yyyy-MM-dd");
     dateNow = dateFormat.format(DateTime.now());
 
-    var invoice = Invoice(
-      id: idGenerator(),
-      createdAt: dateNow,
-      paymentDue: dateNow, // TODO: analisar
-      description: projectDescriptionController.text,
-      paymentTerms:
-          int.tryParse(paymentTermsController.text) ?? 0, // TODO: analisar
-      clientName: billToClientNameController.text,
-      clientEmail: billToClientEmailController.text,
-      status: "draft",
-      senderAddress: SenderAddress(
-        street: billFromStreetController.text,
-        city: billFromCityController.text,
-        postCode: billFromPostalCodeController.text,
-        country: billFromCountryController.text,
-      ),
-      clientAddress: SenderAddress(
-        street: billToStreetController.text,
-        city: billToCityController.text,
-        postCode: billToPostalCodeController.text,
-        country: billToCountryController.text,
-      ),
-    );
+    // Init
+    invoice.id = idGenerator();
+    invoice.status = "draft";
+    invoice.createdAt = dateNow;
+    invoice.paymentDue = dateNow; // TODO: analisar
 
     // Atualizando total
     var total = 0.0;
-    items?.forEach((e) {
-      total += e.total!;
+    // ignore: avoid_function_literals_in_foreach_calls
+    items.forEach((e) {
+      total += e.total.value;
     });
     invoice.total = total;
 
     print(invoice.toJson());
+
     service.update(invoice);
     Get.appUpdate();
     system.closeModal();
@@ -92,5 +75,14 @@ class InvoiceFormController extends GetxController {
         (_) => _validNumbers.codeUnitAt(_rnd.nextInt(_validNumbers.length))));
 
     return '$step1$step2';
+  }
+
+  void calculatorTotalAsIndex(int index) {
+    var price = items[index].price ?? 0.00;
+    var quantity = items[index].quantity ?? 0;
+
+    items[index].total.value = price * quantity;
+
+    Get.appUpdate();
   }
 }
