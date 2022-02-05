@@ -327,7 +327,6 @@ class ShowPage extends StatelessWidget {
                         ),
                         Container(
                           width: 714,
-                          height: 177,
                           decoration: const BoxDecoration(
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(10),

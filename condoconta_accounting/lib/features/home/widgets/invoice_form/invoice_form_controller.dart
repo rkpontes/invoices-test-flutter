@@ -12,9 +12,7 @@ import 'package:intl/intl.dart';
 import 'dart:math';
 
 class InvoiceFormController extends GetxController {
-  InvoiceFormController({this.invoice});
-
-  final formKey = GlobalKey<FormState>();
+  //final formKey = GlobalKey<FormState>();
   final service = Get.find<InvoiceService>();
   final system = Get.find<SystemService>();
   final dateTextController = TextEditingController();
@@ -30,6 +28,11 @@ class InvoiceFormController extends GetxController {
   RxList<Item> items = <Item>[
     Item(),
   ].obs;
+
+  void loadController(Invoice inv) {
+    invoice = inv;
+    items.assignAll(inv.items!);
+  }
 
   void clearController() {
     invoice = Invoice(
@@ -53,11 +56,18 @@ class InvoiceFormController extends GetxController {
   }
 
   void onSaveDraftButtonClick() {
-    print("onSaveDraftButtonClick");
-
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     dateNow = formatter.format(now);
+
+    // Init
+    if (invoice?.id == null) {
+      invoice!.id = idGenerator();
+    }
+
+    invoice!.status = "draft";
+    invoice!.createdAt = dateNow;
+    invoice!.items = items.toList();
 
     // insert paymentDue
     if (invoice?.paymentTerms != null) {
@@ -65,12 +75,6 @@ class InvoiceFormController extends GetxController {
       var payDateFormat = formatter.format(payDate);
       invoice!.paymentDue = payDateFormat;
     }
-
-    // Init
-    invoice!.id = idGenerator();
-    invoice!.status = "draft";
-    invoice!.createdAt = dateNow;
-    invoice!.items = items.value;
 
     // total update
     var total = 0.0;
@@ -84,18 +88,63 @@ class InvoiceFormController extends GetxController {
 
     // if show instanced, update
     Get.find<ShowController>().update();
-
     Get.appUpdate();
     system.closeModal();
+
     ToastWidget(
       backgroundColor: Colors.green,
       textColor: Colors.white,
     ).show("Success", "The invoice ${invoice!.id} has been saved as a draft");
+
+    clearController();
+  }
+
+  void onSaveAndSendButtonClick() {
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    dateNow = formatter.format(now);
+
+    // Init
+    if (invoice?.id == null) {
+      invoice!.id = idGenerator();
+    }
+    invoice!.status = "pending";
+    invoice!.createdAt = dateNow;
+    invoice!.items = items.toList();
+
+    if (validateModel() == null) {
+      // insert paymentDue
+      if (invoice?.paymentTerms != null) {
+        var payDate = now.add(Duration(days: invoice!.paymentTerms!));
+        var payDateFormat = formatter.format(payDate);
+        invoice!.paymentDue = payDateFormat;
+      }
+
+      // total update
+      var total = 0.0;
+      // ignore: avoid_function_literals_in_foreach_calls
+      items.forEach((e) {
+        total += e.total.value;
+      });
+      invoice!.total = total;
+
+      service.update(invoice!);
+
+      // if show instanced, update
+      Get.find<ShowController>().update();
+      Get.appUpdate();
+      system.closeModal();
+
+      ToastWidget(
+        backgroundColor: Colors.green,
+        textColor: Colors.black,
+      ).show("Success", "The invoice ${invoice!.id} has been saved and sent.");
+
+      clearController();
+    }
   }
 
   String? validateModel() {
-    print(invoice!.toJson());
-
     var message = "";
     if (invoice?.senderAddress?.street == null) {
       message = "The field 'Street Address' is required.";
@@ -151,54 +200,22 @@ class InvoiceFormController extends GetxController {
     return null;
   }
 
-  void onSaveAndSendButtonClick() {
-    print("onSaveAndSendButtonClick");
-    print(invoice!.toJson());
-
-    final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    dateNow = formatter.format(now);
-
-    // Init
-    invoice!.id = idGenerator();
-    invoice!.status = "pending";
-    invoice!.createdAt = dateNow;
-    invoice!.items = items.value;
-
-    if (validateModel() == null) {
-      // insert paymentDue
-      if (invoice?.paymentTerms != null) {
-        var payDate = now.add(Duration(days: invoice!.paymentTerms!));
-        var payDateFormat = formatter.format(payDate);
-        invoice!.paymentDue = payDateFormat;
-      }
-
-      // total update
-      var total = 0.0;
-      // ignore: avoid_function_literals_in_foreach_calls
-      items.forEach((e) {
-        total += e.total.value;
-      });
-      invoice!.total = total;
-
-      print(invoice!.toJson());
-
-      service.update(invoice!);
-
-      // if show instanced, update
-      Get.find<ShowController>().update();
-
-      Get.appUpdate();
-      system.closeModal();
-      ToastWidget(
-        backgroundColor: Colors.green,
-        textColor: Colors.black,
-      ).show("Success", "The invoice ${invoice!.id} has been saved and sent.");
-    }
+  void onDiscardButtonClick() {
+    clearController();
+    system.closeModal();
   }
 
-  void onDiscardButtonClick() {
-    system.closeModal();
+  String? changePaymentTermsText() {
+    switch (invoice?.paymentTerms) {
+      case 1:
+        return 'Net 1 day';
+      case 7:
+        return 'Net 7 days';
+      case 30:
+        return 'Net 30 days';
+      default:
+        return null;
+    }
   }
 
   String idGenerator() {

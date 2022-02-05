@@ -16,14 +16,15 @@ class ShowController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    Get.find<InvoiceFormController>().clearController();
+    print(Get.parameters['invoice']!);
+    invoice = invoiceService.get(Get.parameters['invoice']!);
 
-    invoice = Get.arguments;
     print(invoice!.toJson());
   }
 
   void onEditButtonClick() async {
-    Get.find<InvoiceFormController>().invoice = invoice;
-    Get.find<InvoiceFormController>().items.assignAll(invoice!.items!);
+    Get.find<InvoiceFormController>().loadController(invoice!);
 
     await system.openModal(
       // ignore: avoid_unnecessary_containers

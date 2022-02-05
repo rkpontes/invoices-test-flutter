@@ -14,8 +14,7 @@ class HomeController extends GetxController {
   }
 
   void openToShowPage(Invoice invoice) {
-    var result =
-        Get.toNamed("${Routes.show}?invoice=${invoice.id}", arguments: invoice);
+    var result = Get.toNamed("${Routes.show}?invoice=${invoice.id}");
     if (result != null) {
       service.loadData();
       Get.appUpdate();

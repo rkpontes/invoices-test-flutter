@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DropdownField extends StatelessWidget {
-  const DropdownField(
-      {required this.list, this.label, this.onChange, this.validator, Key? key})
-      : super(key: key);
+  const DropdownField({
+    required this.list,
+    this.label,
+    this.onChange,
+    this.validator,
+    this.value,
+    Key? key,
+  }) : super(key: key);
 
   final List<String> list;
-  final String? label;
+  final String? label, value;
   final String? Function(String?)? validator;
   final void Function(String? str)? onChange;
 
@@ -40,6 +45,7 @@ class DropdownField extends StatelessWidget {
               icon: SvgPicture.asset('requirements/assets/icon-arrow-down.svg'),
               dropdownColor: const Color(0xff1f213a),
               validator: validator,
+              value: value,
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 12,

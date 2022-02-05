@@ -192,6 +192,7 @@ class InvoiceForm extends StatelessWidget {
                     child: DropdownField(
                       validator: (str) => ctrl.validateModel(),
                       label: "Payment Terms",
+                      value: ctrl.changePaymentTermsText(),
                       list: const <String>[
                         'Net 1 day',
                         'Net 7 days',
