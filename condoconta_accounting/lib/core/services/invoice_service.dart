@@ -1,15 +1,17 @@
 import 'dart:convert';
 
+import 'package:condoconta_accounting/core/interfaces/iinvoice_service.dart';
 import 'package:condoconta_accounting/core/models/invoice.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'databa_service.dart';
 
-class InvoiceService extends GetxService {
+class InvoiceService extends GetxService implements IInvoiceService {
   final DataBaseService _dataBaseService = DataBaseService();
   RxList<Invoice> list = <Invoice>[].obs;
 
+  @override
   Future setData() async {
     //DataBaseService().erase();
     final String response =
@@ -24,6 +26,7 @@ class InvoiceService extends GetxService {
     DataBaseService().set(key: 'invoices', value: invoices);
   }
 
+  @override
   Future<List<Invoice>> loadData() async {
     List<Invoice> invoices = <Invoice>[];
     List data = await DataBaseService().get(key: 'invoices');
@@ -35,6 +38,7 @@ class InvoiceService extends GetxService {
     return invoices;
   }
 
+  @override
   Invoice? get(String id) {
     for (var i = 0; i < list.length; i++) {
       if (list[i].id == id) {
@@ -45,6 +49,7 @@ class InvoiceService extends GetxService {
     return null;
   }
 
+  @override
   void update(Invoice invoice) {
     var wasFound = false;
     for (var i = 0; i < list.length; i++) {
@@ -62,6 +67,7 @@ class InvoiceService extends GetxService {
     }
   }
 
+  @override
   void insert(Invoice invoice) {
     list.add(invoice);
     List<Invoice> saved = <Invoice>[];
@@ -69,6 +75,7 @@ class InvoiceService extends GetxService {
     _dataBaseService.set(key: 'invoices', value: saved);
   }
 
+  @override
   Future remove(Invoice invoice) async {
     for (var i = 0; i < list.length; i++) {
       if (list[i].id == invoice.id) {
