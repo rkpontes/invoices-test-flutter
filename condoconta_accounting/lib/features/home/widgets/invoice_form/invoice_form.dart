@@ -236,8 +236,8 @@ class InvoiceForm extends StatelessWidget {
               ),
               const SizedBox(height: 25),
               Obx(
-                () =>
-                    InvoiceListWidget(controller: ctrl, list: ctrl.items.value),
+                () => InvoiceListWidget(
+                    controller: ctrl, list: ctrl.items.toList()),
               ),
               const SizedBox(height: 25),
               ButtonRoundedWidget(

@@ -17,10 +17,7 @@ class ShowController extends GetxController {
   void onInit() {
     super.onInit();
     Get.find<InvoiceFormController>().clearController();
-    print(Get.parameters['invoice']!);
     invoice = invoiceService.get(Get.parameters['invoice']!);
-
-    print(invoice!.toJson());
   }
 
   void onEditButtonClick() async {

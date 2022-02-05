@@ -15,7 +15,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: Routes.show,
-      page: () => ShowPage(),
+      page: () => const ShowPage(),
       binding: ShowBinding(),
       transition: Transition.downToUp,
     ),

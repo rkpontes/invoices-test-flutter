@@ -4,7 +4,6 @@ import 'package:condoconta_accounting/core/components/content_area/content_area_
 import 'package:condoconta_accounting/core/components/content_area/header/header.dart';
 import 'package:condoconta_accounting/core/components/sidebar/sidebar_widget.dart';
 import 'package:condoconta_accounting/core/components/template_builder.dart';
-import 'package:condoconta_accounting/core/models/invoice.dart';
 import 'package:condoconta_accounting/core/services/system_service.dart';
 import 'package:condoconta_accounting/features/home/widgets/invoice_form/invoice_form.dart';
 import 'package:condoconta_accounting/features/home/widgets/invoice_form/invoice_form_controller.dart';

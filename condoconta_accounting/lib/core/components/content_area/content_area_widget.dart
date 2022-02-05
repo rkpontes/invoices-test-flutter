@@ -14,6 +14,7 @@ class ContentAreaWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+      // ignore: sized_box_for_whitespace
       child: Container(
         width: 800,
         height: Get.height,

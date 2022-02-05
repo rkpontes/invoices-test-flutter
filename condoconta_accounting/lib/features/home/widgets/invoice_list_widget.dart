@@ -129,7 +129,6 @@ class InvoiceListWidget extends StatelessWidget {
                                           double.parse(str.replaceAll("£", ""));
 
                                       controller.calculatorTotalAsIndex(e.key);
-                                      print(controller.items[e.key].toJson());
                                     },
                                   ),
                                 ),
