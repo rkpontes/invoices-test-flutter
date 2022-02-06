@@ -1,4 +1,4 @@
-import 'package:condoconta_accounting/core/interfaces/service/iinvoice_service.dart';
+import 'package:condoconta_accounting/core/interfaces/iinvoice_service.dart';
 import 'package:condoconta_accounting/core/models/invoice.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

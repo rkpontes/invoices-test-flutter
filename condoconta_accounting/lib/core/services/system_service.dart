@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:condoconta_accounting/core/interfaces/service/isystem_service.dart';
+import 'package:condoconta_accounting/core/interfaces/isystem_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

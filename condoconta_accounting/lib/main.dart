@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+import 'core/themes/themes.dart';
+
 void main() async {
   await GetStorage.init();
   Get.put(GetStorage('condo-conta'));
@@ -18,9 +20,8 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'CondoConta Accouting',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: Themes.light,
+      darkTheme: Themes.dark,
       getPages: AppPages.pages,
       initialRoute: Routes.home,
       initialBinding: GlobalBinding(),
