@@ -27,7 +27,7 @@ class InvoiceFormController extends GetxController {
     Item(),
   ].obs;
 
-  void loadController(Invoice inv) {
+  Future<void> loadController(Invoice inv) async {
     invoice = inv;
     items.assignAll(inv.items!);
   }
@@ -41,11 +41,7 @@ class InvoiceFormController extends GetxController {
 
     id = "";
     dateNow = "";
-    items.assignAll(
-      <Item>[
-        Item(),
-      ],
-    );
+    items.assignAll(<Item>[Item()]);
   }
 
   void onAddNewItemButtonClick() {
@@ -54,34 +50,7 @@ class InvoiceFormController extends GetxController {
   }
 
   void onSaveDraftButtonClick() {
-    final DateTime now = DateTime.now();
-    final DateFormat formatter = DateFormat('yyyy-MM-dd');
-    dateNow = formatter.format(now);
-
-    // Init
-    if (invoice?.id == null) {
-      invoice!.idGenerator();
-    }
-
-    invoice!.status = "draft";
-    invoice!.createdAt = dateNow;
-    invoice!.items = items.toList();
-
-    // insert paymentDue
-    if (invoice?.paymentTerms != null) {
-      var payDate = now.add(Duration(days: invoice!.paymentTerms!));
-      var payDateFormat = formatter.format(payDate);
-      invoice!.paymentDue = payDateFormat;
-    }
-
-    // total update
-    var total = 0.0;
-    // ignore: avoid_function_literals_in_foreach_calls
-    items.forEach((e) {
-      total += e.total.value;
-    });
-    invoice!.total = total;
-
+    save(false, "daft");
     service.update(invoice!);
 
     // if show instanced, update
@@ -100,6 +69,26 @@ class InvoiceFormController extends GetxController {
   }
 
   void onSaveAndSendButtonClick() {
+    save(true, "pending");
+
+    service.update(invoice!);
+
+    // if show instanced, update
+    if (Get.isRegistered<ShowController>()) {
+      Get.find<ShowController>().update();
+    }
+    Get.appUpdate();
+    system.closeModal();
+
+    ToastWidget(
+      backgroundColor: Colors.green,
+      textColor: Colors.black,
+    ).show("Success", "The invoice ${invoice!.id} has been saved and sent.");
+
+    clearController();
+  }
+
+  void save(bool useValidation, String status) {
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     dateNow = formatter.format(now);
@@ -108,42 +97,28 @@ class InvoiceFormController extends GetxController {
     if (invoice?.id == null) {
       invoice!.idGenerator();
     }
-    invoice!.status = "pending";
+    invoice!.status = status;
     invoice!.createdAt = dateNow;
     invoice!.items = items.toList();
 
-    if (validateModel() == null) {
-      // insert paymentDue
-      if (invoice?.paymentTerms != null) {
-        var payDate = now.add(Duration(days: invoice!.paymentTerms!));
-        var payDateFormat = formatter.format(payDate);
-        invoice!.paymentDue = payDateFormat;
-      }
-
-      // total update
-      var total = 0.0;
-      // ignore: avoid_function_literals_in_foreach_calls
-      items.forEach((e) {
-        total += e.total.value;
-      });
-      invoice!.total = total;
-
-      service.update(invoice!);
-
-      // if show instanced, update
-      if (Get.isRegistered<ShowController>()) {
-        Get.find<ShowController>().update();
-      }
-      Get.appUpdate();
-      system.closeModal();
-
-      ToastWidget(
-        backgroundColor: Colors.green,
-        textColor: Colors.black,
-      ).show("Success", "The invoice ${invoice!.id} has been saved and sent.");
-
-      clearController();
+    if (useValidation == true && validateModel() != null) {
+      return;
     }
+
+    // insert paymentDue
+    if (invoice?.paymentTerms != null) {
+      var payDate = now.add(Duration(days: invoice!.paymentTerms!));
+      var payDateFormat = formatter.format(payDate);
+      invoice!.paymentDue = payDateFormat;
+    }
+
+    // total update
+    var total = 0.0;
+    // ignore: avoid_function_literals_in_foreach_calls
+    items.forEach((e) {
+      total += e.total.value;
+    });
+    invoice!.total = total;
   }
 
   String? validateModel() {

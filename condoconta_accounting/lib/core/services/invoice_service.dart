@@ -4,14 +4,14 @@ import 'package:condoconta_accounting/core/models/invoice.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import 'databa_service.dart';
+import 'database_service.dart';
 
 class InvoiceService extends GetxService implements IInvoiceService {
   final DataBaseService _dataBaseService = DataBaseService();
   RxList<Invoice> list = <Invoice>[].obs;
 
   @override
-  Future setData() async {
+  Future<List<Map>> setData() async {
     final String response =
         await rootBundle.loadString('../requirements/assets/data.json');
     final data = await json.decode(response);
@@ -23,6 +23,8 @@ class InvoiceService extends GetxService implements IInvoiceService {
     });
 
     DataBaseService().set(key: 'invoices', value: invoices);
+
+    return invoices;
   }
 
   @override
