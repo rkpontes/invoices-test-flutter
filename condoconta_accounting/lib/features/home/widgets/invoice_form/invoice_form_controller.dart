@@ -50,7 +50,7 @@ class InvoiceFormController extends GetxController {
   }
 
   void onSaveDraftButtonClick() {
-    save(false, "daft");
+    save(useValidation: false, status: "daft");
     service.update(invoice!);
 
     // if show instanced, update
@@ -69,7 +69,7 @@ class InvoiceFormController extends GetxController {
   }
 
   void onSaveAndSendButtonClick() {
-    save(true, "pending");
+    save(useValidation: true, status: "pending");
 
     service.update(invoice!);
 
@@ -88,7 +88,27 @@ class InvoiceFormController extends GetxController {
     clearController();
   }
 
-  void save(bool useValidation, String status) {
+  void onSaveChangesButtonClick() {
+    save();
+
+    service.update(invoice!);
+
+    // if show instanced, update
+    if (Get.isRegistered<ShowController>()) {
+      Get.find<ShowController>().update();
+    }
+    Get.appUpdate();
+    system.closeModal();
+
+    ToastWidget(
+      backgroundColor: Colors.green,
+      textColor: Colors.black,
+    ).show("Success", "The invoice ${invoice!.id} has been saved.");
+
+    clearController();
+  }
+
+  void save({bool? useValidation, String? status}) {
     final DateTime now = DateTime.now();
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
     dateNow = formatter.format(now);
@@ -97,7 +117,9 @@ class InvoiceFormController extends GetxController {
     if (invoice?.id == null) {
       invoice!.idGenerator();
     }
-    invoice!.status = status;
+    if (status != null) {
+      invoice!.status = status;
+    }
     invoice!.createdAt = dateNow;
     invoice!.items = items.toList();
 

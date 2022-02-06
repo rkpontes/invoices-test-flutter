@@ -250,18 +250,23 @@ class InvoiceForm extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: ButtonRoundedWidget(
-                      onTap: ctrl.onDiscardButtonClick,
-                      text: "Discard",
-                      color: Colors.white,
-                      textColor: accentColor,
-                    ),
+                    child: ctrl.invoice?.id == null
+                        ? ButtonRoundedWidget(
+                            onTap: ctrl.onDiscardButtonClick,
+                            text: "Discard",
+                            color: Colors.white,
+                            textColor: accentColor,
+                          )
+                        : Container(),
                   ),
                   const SizedBox(width: 80),
                   Expanded(
                     child: ButtonRoundedWidget(
-                      onTap: ctrl.onSaveDraftButtonClick,
-                      text: "Save as Draft",
+                      onTap: ctrl.invoice?.id != null
+                          ? ctrl.onDiscardButtonClick
+                          : ctrl.onSaveDraftButtonClick,
+                      text:
+                          ctrl.invoice?.id != null ? "Cancel" : "Save as Draft",
                       color: primary2Color,
                       textColor: Colors.white,
                     ),
@@ -269,8 +274,12 @@ class InvoiceForm extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: ButtonRoundedWidget(
-                      onTap: ctrl.onSaveAndSendButtonClick,
-                      text: "Save & Send",
+                      onTap: ctrl.invoice?.id != null
+                          ? ctrl.onSaveChangesButtonClick
+                          : ctrl.onSaveAndSendButtonClick,
+                      text: ctrl.invoice?.id != null
+                          ? "Save Changes"
+                          : "Save & Send",
                       color: accentColor,
                       textColor: Colors.white,
                     ),

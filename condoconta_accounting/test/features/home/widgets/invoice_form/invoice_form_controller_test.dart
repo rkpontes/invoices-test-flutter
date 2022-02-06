@@ -43,7 +43,7 @@ void main() {
     test('Should save the updated Invoice with the data provided in the form',
         () async {
       final controller = InvoiceFormController();
-      controller.save(false, "draft");
+      controller.save(useValidation: false, status: "draft");
 
       expect(controller.invoice?.status, isNotNull);
       expect(controller.invoice?.createdAt, isNotNull);
