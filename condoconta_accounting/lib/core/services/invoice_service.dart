@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-import 'package:condoconta_accounting/core/interfaces/iinvoice_service.dart';
+import 'package:condoconta_accounting/core/interfaces/service/iinvoice_service.dart';
 import 'package:condoconta_accounting/core/models/invoice.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -13,14 +12,14 @@ class InvoiceService extends GetxService implements IInvoiceService {
 
   @override
   Future setData() async {
-    //DataBaseService().erase();
     final String response =
         await rootBundle.loadString('../requirements/assets/data.json');
     final data = await json.decode(response);
     List<Map> invoices = <Map>[];
     data.forEach((e) {
+      invoices.add(e);
       Invoice data = Invoice.fromJson(e);
-      invoices.add(data.toJson());
+      list.add(data);
     });
 
     DataBaseService().set(key: 'invoices', value: invoices);
@@ -45,7 +44,6 @@ class InvoiceService extends GetxService implements IInvoiceService {
         return list[i];
       }
     }
-
     return null;
   }
 

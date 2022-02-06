@@ -10,14 +10,14 @@ class Item {
     name = name;
     quantity = quantity;
     price = price;
-    this.total.value = total ?? 0.0;
+    this.total.value = total?.toDouble() ?? 0.0;
   }
 
   Item.fromJson(Map<String, dynamic> json) {
     name = json['name'];
-    quantity = json['quantity'];
-    price = json['price'];
-    total.value = json['total'];
+    quantity = int.parse(json['quantity'].toString());
+    price = double.parse(json['price'].toString());
+    total.value = double.parse(json['total'].toString());
   }
 
   Map<String, dynamic> toJson() {

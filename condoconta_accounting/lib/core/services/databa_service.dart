@@ -1,4 +1,4 @@
-import 'package:condoconta_accounting/core/interfaces/idataba_service.dart';
+import 'package:condoconta_accounting/core/interfaces/service/idataba_service.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 

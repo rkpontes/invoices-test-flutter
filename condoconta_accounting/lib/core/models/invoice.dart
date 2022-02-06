@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'item.dart';
 import 'sender_address.dart';
 
@@ -50,7 +51,7 @@ class Invoice {
         items!.add(Item.fromJson(v));
       });
     }
-    total = json['total'];
+    total = double.tryParse(json['total'].toString());
   }
 
   Map<String, dynamic> toJson() {
@@ -74,5 +75,20 @@ class Invoice {
     }
     data['total'] = total;
     return data;
+  }
+
+  String idGenerator() {
+    const _validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const _validNumbers = '0123456789';
+    Random _rnd = Random();
+
+    var step1 = String.fromCharCodes(Iterable.generate(
+        2, (_) => _validChars.codeUnitAt(_rnd.nextInt(_validChars.length))));
+    var step2 = String.fromCharCodes(Iterable.generate(4,
+        (_) => _validNumbers.codeUnitAt(_rnd.nextInt(_validNumbers.length))));
+
+    id = '$step1$step2';
+
+    return id!;
   }
 }

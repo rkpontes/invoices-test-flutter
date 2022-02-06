@@ -9,10 +9,8 @@ import 'package:condoconta_accounting/features/show/show_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'dart:math';
 
 class InvoiceFormController extends GetxController {
-  //final formKey = GlobalKey<FormState>();
   final service = Get.find<InvoiceService>();
   final system = Get.find<SystemService>();
   final dateTextController = TextEditingController();
@@ -62,7 +60,7 @@ class InvoiceFormController extends GetxController {
 
     // Init
     if (invoice?.id == null) {
-      invoice!.id = idGenerator();
+      invoice!.idGenerator();
     }
 
     invoice!.status = "draft";
@@ -87,7 +85,9 @@ class InvoiceFormController extends GetxController {
     service.update(invoice!);
 
     // if show instanced, update
-    Get.find<ShowController>().update();
+    if (Get.isRegistered<ShowController>()) {
+      Get.find<ShowController>().update();
+    }
     Get.appUpdate();
     system.closeModal();
 
@@ -106,7 +106,7 @@ class InvoiceFormController extends GetxController {
 
     // Init
     if (invoice?.id == null) {
-      invoice!.id = idGenerator();
+      invoice!.idGenerator();
     }
     invoice!.status = "pending";
     invoice!.createdAt = dateNow;
@@ -131,7 +131,9 @@ class InvoiceFormController extends GetxController {
       service.update(invoice!);
 
       // if show instanced, update
-      Get.find<ShowController>().update();
+      if (Get.isRegistered<ShowController>()) {
+        Get.find<ShowController>().update();
+      }
       Get.appUpdate();
       system.closeModal();
 
@@ -216,19 +218,6 @@ class InvoiceFormController extends GetxController {
       default:
         return null;
     }
-  }
-
-  String idGenerator() {
-    const _validChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const _validNumbers = '0123456789';
-    Random _rnd = Random();
-
-    var step1 = String.fromCharCodes(Iterable.generate(
-        2, (_) => _validChars.codeUnitAt(_rnd.nextInt(_validChars.length))));
-    var step2 = String.fromCharCodes(Iterable.generate(4,
-        (_) => _validNumbers.codeUnitAt(_rnd.nextInt(_validNumbers.length))));
-
-    return '$step1$step2';
   }
 
   void calculatorTotalAsIndex(int index) {
