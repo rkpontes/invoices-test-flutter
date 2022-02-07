@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'body/body_widget.dart';
 import 'header/header.dart';
 
 class ContentAreaWidget extends StatelessWidget {
@@ -9,7 +7,7 @@ class ContentAreaWidget extends StatelessWidget {
       : super(key: key);
 
   final HeaderWidget? headerWidget;
-  final BodyWidget? bodyWidget;
+  final Widget? bodyWidget;
 
   @override
   Widget build(BuildContext context) {

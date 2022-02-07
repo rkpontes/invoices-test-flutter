@@ -1,14 +1,17 @@
 import 'dart:convert';
 import 'package:condoconta_accounting/core/interfaces/iinvoice_service.dart';
 import 'package:condoconta_accounting/core/models/invoice.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import 'database_service.dart';
 
 class InvoiceService extends GetxService implements IInvoiceService {
+  final GlobalKey<FormFieldState> formKey = GlobalKey<FormFieldState>();
   final DataBaseService _dataBaseService = DataBaseService();
   RxList<Invoice> list = <Invoice>[].obs;
+  RxString filter = "".obs;
 
   @override
   Future<List<Map>> setData() async {
@@ -84,6 +87,15 @@ class InvoiceService extends GetxService implements IInvoiceService {
         removed.assignAll(list);
         _dataBaseService.set(key: 'invoices', value: removed);
       }
+    }
+  }
+
+  Future onFilter(String str) async {
+    if (str == "all") {
+      filter.value = "";
+      formKey.currentState!.reset();
+    } else {
+      filter.value = str;
     }
   }
 }

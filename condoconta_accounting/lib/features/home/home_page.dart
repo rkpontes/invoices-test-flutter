@@ -48,21 +48,22 @@ class HomePage extends GetView<HomeController> {
                 ),
               ),
               bodyWidget: controller.service.list.isNotEmpty
-                  ? BodyWidget(
-                      children: controller.service.list
-                          .map(
-                            (e) => InvoiceItemList(
+                  ? Obx(() {
+                      return BodyWidget(
+                        children: controller.service.list.map((e) {
+                          return Visibility(
+                            visible: (controller.service.filter.value == "") ||
+                                (controller.service.filter.value != "" &&
+                                    controller.service.filter.value ==
+                                        e.status),
+                            child: InvoiceItemList(
                               item: e,
                               onTap: () => controller.openToShowPage(e),
-                              /* onTap: () => system.openModal(
-                          Container(
-                            child: InvoiceForm(invoice: e),
-                          ),
-                        ), */
                             ),
-                          )
-                          .toList(),
-                    )
+                          );
+                        }).toList(),
+                      );
+                    })
                   : BodyWidget(),
             ),
           )),

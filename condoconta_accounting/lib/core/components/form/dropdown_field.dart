@@ -8,13 +8,20 @@ class DropdownField extends StatelessWidget {
     this.onChange,
     this.validator,
     this.value,
+    this.hintText,
+    this.decoration,
+    this.backgroundColor,
+    this.formKey,
     Key? key,
   }) : super(key: key);
 
   final List<String> list;
-  final String? label, value;
+  final String? label, value, hintText;
   final String? Function(String?)? validator;
   final void Function(String? str)? onChange;
+  final InputDecoration? decoration;
+  final Color? backgroundColor;
+  final GlobalKey? formKey;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +46,9 @@ class DropdownField extends StatelessWidget {
           const SizedBox(height: 8),
           Container(
             height: 45,
-            color: const Color(0xff1f213a),
+            color: backgroundColor ?? const Color(0xff1f213a),
             child: DropdownButtonFormField<String>(
+              key: formKey,
               isDense: true,
               icon: SvgPicture.asset('requirements/assets/icon-arrow-down.svg'),
               dropdownColor: const Color(0xff1f213a),
@@ -52,28 +60,30 @@ class DropdownField extends StatelessWidget {
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.w500,
               ),
-              decoration: InputDecoration(
-                enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.grey, width: 0.3),
-                ),
-                focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.white, width: 0.3),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5),
-                  borderSide: const BorderSide(
-                    width: 0.3,
-                    style: BorderStyle.solid,
-                    color: Colors.grey,
+              decoration: decoration ??
+                  InputDecoration(
+                    hintText: hintText ?? "...",
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey, width: 0.3),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white, width: 0.3),
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(5),
+                      borderSide: const BorderSide(
+                        width: 0.3,
+                        style: BorderStyle.solid,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    hintStyle: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontFamily: "Roboto",
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
-                hintStyle: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 12,
-                  fontFamily: "Roboto",
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
               items: list.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,

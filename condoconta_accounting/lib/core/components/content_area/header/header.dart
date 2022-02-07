@@ -25,7 +25,7 @@ class HeaderWidget extends StatelessWidget {
             subtitle: subtitle,
           ),
           const Spacer(),
-          const FilterWidget(),
+          FilterWidget(),
           actionButton ?? Container(),
         ],
       ),
