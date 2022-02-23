@@ -53,4 +53,3 @@ Please organize, design, test, and document your code as if it were going into p
 
 **Have fun building!** 🚀
 
-The CondoConta Team
