@@ -1,6 +1,6 @@
 ### Objective
 
-Your challenge is to build out this invoicing application for CondoConta's accounting department and get it looking as close to the design as possible.
+Your challenge is to build out this invoicing application for Company accounting department and get it looking as close to the design as possible.
 
 ### Brief
 
