@@ -9,7 +9,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await service.setData(); // TODO: uncomment to load base from json file
+    //await service.setData(); // TODO: uncomment to load base from json file
     service.list.assignAll(await service.loadData());
   }
 
